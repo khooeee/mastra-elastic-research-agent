@@ -19,7 +19,9 @@ How should we finetune models?
 
 npm run seed:current
 
-pm run notes:today
+npm run notes:today
+
+rm sample-data/2026-08-19.json
 
 ---
 
