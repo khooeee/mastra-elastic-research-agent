@@ -11,8 +11,7 @@
     "dev": "mastra dev",
     "setup": "tsx src/setup-indices.ts",
     "seed:original": "tsx src/seed-original.ts",
-    "seed:current": "tsx src/seed-current.ts",
-    "seed:sample": "tsx src/seed-sample.ts"
+    "seed:current": "tsx src/seed-current.ts"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^9.0.0",

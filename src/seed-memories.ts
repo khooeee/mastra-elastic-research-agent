@@ -8,7 +8,6 @@
  */
 import { Client } from "@elastic/elasticsearch";
 import { readFile } from "node:fs/promises";
-import { basename } from "node:path";
 import "dotenv/config";
 
 const es = new Client({
@@ -75,7 +74,7 @@ async function bulkIndex(memories: Mem[], dataset: string): Promise<void> {
         content: m.content,
         content_semantic: m.content,
         tags: m.tags ?? [],
-        source: `seed-sample:${dataset}`,
+        source: `seed:${dataset}`,
         created_at: created,
         updated_at: created,
         access_scope: "shared",
@@ -108,17 +107,4 @@ export async function seedReversals(): Promise<void> {
   await bulkIndex(memories, "arxiv-lab-current");
   const maxAge = Math.max(...memories.map((m) => m.ageDays));
   console.log(`Appended ${memories.length} reversal memories (backdated up to ${maxAge} days). Original notes were left in place.`);
-}
-
-/** Seed an arbitrary JSON file. Pass reset: true to wipe this AGENT_ID first. */
-export async function seedFromFile(file: string, opts: { reset?: boolean } = {}): Promise<void> {
-  const memories = await loadMemories(file);
-  if (opts.reset) {
-    const deleted = await resetAgentMemories();
-    console.log(`Reset ${AGENT_ID}: deleted ${deleted} old memories.`);
-  }
-  const dataset = basename(file).replace(/\.json$/i, "");
-  await bulkIndex(memories, dataset);
-  const maxAge = Math.max(...memories.map((m) => m.ageDays));
-  console.log(`Seeded ${memories.length} memories from '${dataset}' (backdated up to ${maxAge} days).`);
 }
