@@ -1,0 +1,65 @@
+[
+  {
+    "type": "decision",
+    "title": "Switch alignment to GRPO / RLVR - RLHF decision superseded",
+    "content": "DeepSeek-R1 (2501.12948) and GRPO/RLVR beat our RLHF stack on math and code with no reward model to keep alive. Alignment default is now GRPO with verifiable rewards. The InstructGPT/RLHF decision is superseded. PPO configs stay archived; do not start new RM labeling.",
+    "tags": ["alignment", "GRPO", "RLVR", "DeepSeek-R1", "2501.12948", "supersedes"],
+    "ageDays": 18
+  },
+  {
+    "type": "decision",
+    "title": "Long context plus memory tools - RAG-as-default superseded",
+    "content": "The 128k+ windows and agent-memory tools made naive RAG the wrong default. Factual questions now go to long context first; durable lab facts go to remember/recall with decay. RAG is only for huge, rarely-read corpora. The Lewis/RAG-as-architecture decision is superseded.",
+    "tags": ["knowledge", "long-context", "memory", "RAG", "supersedes"],
+    "ageDays": 28
+  },
+  {
+    "type": "decision",
+    "title": "Full finetune the 70B; LoRA only for experiments - LoRA-default superseded",
+    "content": "The new cluster can full-finetune the 70B overnight. LoRA underfit the domain mix on the last three customer adapters. Default for production adaptation is now a full finetune. LoRA stays for prototypes and multi-tenant adapters only. The Hu/LoRA-for-every-finetune decision is superseded.",
+    "tags": ["adaptation", "finetune", "LoRA", "70B", "supersedes"],
+    "ageDays": 35
+  },
+  {
+    "type": "feedback",
+    "title": "Do not keep citing the 2024 process-supervision paper - failed to replicate",
+    "content": "We spent two weeks trying to reproduce the 2024 process-supervision gains on our math split (the one everyone bookmarked last spring). Reward-model-over-steps did not beat outcome-only GRPO on our harness. Do not keep citing it as SOTA or as why we need a process RM. Treat it as a negative result for this lab.",
+    "tags": ["alignment", "process-supervision", "feedback", "do-not-cite"],
+    "ageDays": 95
+  },
+  {
+    "type": "context",
+    "title": "Cluster can full-finetune 70B; 8xH100 box is the training default",
+    "content": "Training default is the 8xH100 box. A 70B full finetune on the instruction mix finishes overnight; LoRA is no longer required to hit the budget. Inference still merges or serves full weights. This is why the adaptation default could move.",
+    "tags": ["compute", "70B", "H100", "finetune", "blocker"],
+    "ageDays": 40
+  },
+  {
+    "type": "feedback",
+    "title": "LoRA rank 16 underfit the last three customer adapters",
+    "content": "Customer A/B/C adapters trained with the LoRA template all plateaued ~3 points below a matched full finetune on the holdout. Rank 64 helped a little, not enough. This is the evidence behind dropping LoRA as the production default.",
+    "tags": ["adaptation", "LoRA", "feedback", "70B"],
+    "ageDays": 42
+  },
+  {
+    "type": "feedback",
+    "title": "RAG missed long-doc facts that fit in the 128k window",
+    "content": "On the Q2 factuality set, chunked RAG (k=8) dropped citations that were in-document but outside the retrieved chunks. Stuffing the same docs into a 128k context recovered them. Retrieval stays for the wiki dump; it is the wrong first tool for anything that fits in context.",
+    "tags": ["knowledge", "RAG", "long-context", "feedback"],
+    "ageDays": 30
+  },
+  {
+    "type": "feedback",
+    "title": "GRPO run on the math split beat PPO-RLHF - keep going",
+    "content": "First GRPO/RLVR run (recipe close to DeepSeek-R1, 2501.12948) beat our production PPO-RLHF checkpoint on GSM8K-style and LiveCodeBench-internal. No RM to retrain. Staffing should move off RM labeling.",
+    "tags": ["alignment", "GRPO", "2501.12948", "feedback"],
+    "ageDays": 12
+  },
+  {
+    "type": "context",
+    "title": "Already read - do not recommend these arXiv ids",
+    "content": "Already consumed; exclude from 'what should I read' recs: 2203.02155 InstructGPT, 2106.09685 LoRA, 2005.11401 RAG, 2501.12948 DeepSeek-R1, 2402.03300 DeepSeekMath (GRPO), 2307.09288 Llama 2. Still unread and on the maybe-list: anything new on test-time compute, memory-augmented agents, or 70B full-finetune recipes.",
+    "tags": ["already-read", "2203.02155", "2106.09685", "2005.11401", "2501.12948", "2402.03300"],
+    "ageDays": 5
+  }
+]

@@ -21,20 +21,21 @@ npm run reset
 
 npm run seed:original
 
+npm run dev
+
 How do we provide agents with knowledge these days?
+
+How should we finetune models?
 
 npm run seed:current
 
-How should we adapt this model?
-
 ---
-
 
 How should we align the model?
 
 ## Built
 
-Lab notes in `sample-data/arxiv-lab.json` (not the papers themselves). Live arXiv via `search_arxiv`.
+Lab notes in `sample-data/original.json` and `sample-data/current.json` (not the papers themselves). Live arXiv via `search_arxiv`.
 
 ```bash
 npm run setup

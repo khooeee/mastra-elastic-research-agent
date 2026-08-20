@@ -5,7 +5,7 @@
  *   recall   - FORK (BM25 + semantic) → FUSE → DECAY
  *   search_arxiv - new papers; exclude already-read ids
  *
- * Dataset: sample-data/arxiv-lab.json (planted method reversals).
+ * Dataset: sample-data/original.json then sample-data/current.json.
  * Tune BRIDGE_MEMORY_DECAY_WINDOW, FUSION_STRATEGY / FUSION_BM25_WEIGHT.
  */
 import { Agent } from "@mastra/core/agent";

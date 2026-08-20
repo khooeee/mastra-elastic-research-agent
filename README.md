@@ -27,7 +27,7 @@ Studio: http://localhost:4111 → `advanced-memory-agent`. Use a **fresh thread*
 
 ### Original thinking, then reversals
 
-Notes live in `sample-data/arxiv-lab.json`, tagged `era: original | current | both`.
+Notes live in `sample-data/original.json` and `sample-data/current.json`.
 
 ```bash
 npm run reset

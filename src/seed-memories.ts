@@ -12,26 +12,20 @@ const es = new Client({
 });
 
 export const AGENT_ID = process.env.AGENT_ID ?? "mastra-agent";
-export const LAB_FILE = "./sample-data/arxiv-lab.json";
+export const ORIGINAL_FILE = "./sample-data/original.json";
+export const CURRENT_FILE = "./sample-data/current.json";
 
 const INDEX = "agent-memory";
 
 const daysAgo = (n: number) => new Date(Date.now() - n * 86_400_000).toISOString();
 
-export type Era = "original" | "current" | "both";
-
 export type Mem = {
-  era?: Era;
   type: "decision" | "pattern" | "context" | "feedback";
   title: string;
   content: string;
   tags: string[];
   ageDays: number;
 };
-
-export function eraOf(m: Mem): Era {
-  return m.era ?? "both";
-}
 
 export async function loadMemories(file: string): Promise<Mem[]> {
   const memories = JSON.parse(await readFile(file, "utf8")) as Mem[];
