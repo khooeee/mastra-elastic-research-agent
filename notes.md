@@ -19,6 +19,8 @@ How should we finetune models?
 
 npm run seed:current
 
+pm run notes:today
+
 ---
 
 How should we align the model?

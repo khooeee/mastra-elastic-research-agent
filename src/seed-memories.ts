@@ -48,6 +48,17 @@ export async function resetAgentMemories(): Promise<number> {
   return result.deleted ?? 0;
 }
 
+/** Replace one dataset's notes. Leaves other sources in place. */
+export async function ingestMemories(memories: Mem[], dataset: string): Promise<void> {
+  await es.deleteByQuery({
+    index: INDEX,
+    query: { term: { source: `seed:${dataset}` } },
+    refresh: true,
+  });
+  if (memories.length === 0) return;
+  await bulkIndex(memories, dataset);
+}
+
 export async function bulkIndex(memories: Mem[], dataset: string): Promise<void> {
   const operations = memories.flatMap((m, i) => {
     const created = daysAgo(m.ageDays);

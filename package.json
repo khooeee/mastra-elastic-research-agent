@@ -12,7 +12,8 @@
     "setup": "tsx src/setup-indices.ts",
     "reset": "tsx src/reset.ts",
     "seed:original": "tsx src/seed-original.ts",
-    "seed:current": "tsx src/seed-current.ts"
+    "seed:current": "tsx src/seed-current.ts",
+    "notes:today": "tsx src/fetch-lab-notes.ts"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^9.0.0",

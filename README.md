@@ -27,7 +27,12 @@ Studio: http://localhost:4111 → `advanced-memory-agent`. Use a **fresh thread*
 
 ### Original thinking, then reversals
 
-Notes live in `sample-data/original.json` and `sample-data/current.json`.
+Notes live in `sample-data/original.json` and `sample-data/current.json`. Daily cs.LG/cs.CL scans:
+
+```bash
+npm run notes:today                 # writes sample-data/YYYY-MM-DD.json and ingests into Elasticsearch
+npm run notes:today -- --date 2026-08-18
+```
 
 ```bash
 npm run reset
