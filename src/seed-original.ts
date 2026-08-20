@@ -5,13 +5,13 @@
  *
  *   npm run seed:original
  */
-import { ORIGINAL_FILE, bulkIndex, loadMemories } from "./seed-memories";
+import { bulkIndex, loadMemories } from "./seed-memories";
 
 async function seedOriginal(): Promise<void> {
-  const memories = await loadMemories(ORIGINAL_FILE);
+  const memories = await loadMemories("./sample-data/original.json");
   await bulkIndex(memories, "arxiv-lab-original");
   const maxAge = Math.max(...memories.map((m) => m.ageDays));
-  console.log(`Seeded ${memories.length} original memories (backdated up to ${maxAge} days).`);
+  console.log(`Appended ${memories.length} memories`);
 }
 
 seedOriginal().catch((err) => {

@@ -12,8 +12,6 @@ const es = new Client({
 });
 
 export const AGENT_ID = process.env.AGENT_ID ?? "mastra-agent";
-export const ORIGINAL_FILE = "./sample-data/original.json";
-export const CURRENT_FILE = "./sample-data/current.json";
 
 const INDEX = "agent-memory";
 
