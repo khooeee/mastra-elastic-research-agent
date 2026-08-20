@@ -1,9 +1,5 @@
 /**
- * Shared Elasticsearch seed from sample-data/arxiv-lab.json.
- *
- *   seed:original — wipe this AGENT_ID, load original thinking + shared patterns
- *   seed:current  — do not wipe; append reversal notes (era: current)
- *
+ * Shared Elasticsearch helpers for the lab seeds.
  * Run `npm run setup` first.
  */
 import { Client } from "@elastic/elasticsearch";
@@ -15,9 +11,10 @@ const es = new Client({
   auth: { apiKey: process.env.ELASTICSEARCH_API_KEY! },
 });
 
-const AGENT_ID = process.env.AGENT_ID ?? "mastra-agent";
+export const AGENT_ID = process.env.AGENT_ID ?? "mastra-agent";
+export const LAB_FILE = "./sample-data/arxiv-lab.json";
+
 const INDEX = "agent-memory";
-const LAB_FILE = "./sample-data/arxiv-lab.json";
 
 const daysAgo = (n: number) => new Date(Date.now() - n * 86_400_000).toISOString();
 
@@ -32,11 +29,11 @@ export type Mem = {
   ageDays: number;
 };
 
-function eraOf(m: Mem): Era {
+export function eraOf(m: Mem): Era {
   return m.era ?? "both";
 }
 
-async function loadMemories(file: string): Promise<Mem[]> {
+export async function loadMemories(file: string): Promise<Mem[]> {
   const memories = JSON.parse(await readFile(file, "utf8")) as Mem[];
   const bad = memories.filter(
     (m) => !m.title || !m.content || typeof m.ageDays !== "number" ||
@@ -50,7 +47,7 @@ async function loadMemories(file: string): Promise<Mem[]> {
   return memories;
 }
 
-async function resetAgentMemories(): Promise<number> {
+export async function resetAgentMemories(): Promise<number> {
   const result = await es.deleteByQuery({
     index: INDEX,
     query: { term: { agent: AGENT_ID } },
@@ -59,7 +56,7 @@ async function resetAgentMemories(): Promise<number> {
   return result.deleted ?? 0;
 }
 
-async function bulkIndex(memories: Mem[], dataset: string): Promise<void> {
+export async function bulkIndex(memories: Mem[], dataset: string): Promise<void> {
   const operations = memories.flatMap((m, i) => {
     const created = daysAgo(m.ageDays);
     const id = `${AGENT_ID}-${dataset}-${String(i).padStart(3, "0")}`;
@@ -87,24 +84,4 @@ async function bulkIndex(memories: Mem[], dataset: string): Promise<void> {
     const failed = result.items.filter((i: { index?: { error?: unknown } }) => i.index?.error);
     throw new Error(`Some documents failed: ${JSON.stringify(failed, null, 2)}`);
   }
-}
-
-/** Wipe this AGENT_ID, then load original standing decisions + shared patterns. */
-export async function resetAndSeedOriginal(): Promise<void> {
-  const all = await loadMemories(LAB_FILE);
-  const memories = all.filter((m) => eraOf(m) === "original" || eraOf(m) === "both");
-  const deleted = await resetAgentMemories();
-  await bulkIndex(memories, "arxiv-lab-original");
-  const maxAge = Math.max(...memories.map((m) => m.ageDays));
-  console.log(`Reset ${AGENT_ID}: deleted ${deleted} old memories.`);
-  console.log(`Seeded ${memories.length} original memories (backdated up to ${maxAge} days).`);
-}
-
-/** Append reversal notes only. Leaves original thinking in place. */
-export async function seedReversals(): Promise<void> {
-  const all = await loadMemories(LAB_FILE);
-  const memories = all.filter((m) => eraOf(m) === "current");
-  await bulkIndex(memories, "arxiv-lab-current");
-  const maxAge = Math.max(...memories.map((m) => m.ageDays));
-  console.log(`Appended ${memories.length} reversal memories (backdated up to ${maxAge} days). Original notes were left in place.`);
 }
