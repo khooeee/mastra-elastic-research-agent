@@ -1,11 +1,9 @@
 /**
  * seed-sample.ts - seed the agent-memory index from a sample dataset JSON.
  *
- * Same shape as the Nimbus seed (src/seed-memories.ts), but data-driven so
- * you can pick a domain - or copy a file and write your own:
+ * Data-driven seed so you can copy arxiv-lab.json and write your own notes:
  *
- *   npx tsx src/seed-sample.ts --file ./sample-data/coffee-shop.json
- *   npx tsx src/seed-sample.ts --file ./sample-data/trip-planner.json
+ *   npx tsx src/seed-sample.ts --file ./sample-data/arxiv-lab.json
  *
  * Dataset format - an array of memories with RELATIVE ages, so the decay
  * demo works whenever you run it:
@@ -55,7 +53,7 @@ function arg(name: string): string | undefined {
 async function main() {
   const file = arg("file");
   if (!file) {
-    console.error("Usage: npx tsx src/seed-sample.ts --file ./sample-data/coffee-shop.json");
+    console.error("Usage: npx tsx src/seed-sample.ts --file ./sample-data/arxiv-lab.json");
     process.exit(1);
   }
 

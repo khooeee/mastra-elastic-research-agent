@@ -115,7 +115,7 @@ export const searchArxiv = createTool({
     );
 
     const res = await fetch(`${ARXIV_API}?${params}`, {
-      headers: { "User-Agent": "hacknight-arxiv-lab/1.0 (mailto:research@local)" },
+      headers: { "User-Agent": "mastra-elastic-research-agent/1.0 (mailto:research@local)" },
     });
     const xml = await res.text();
     if (!res.ok || xml.startsWith("Rate exceeded")) {

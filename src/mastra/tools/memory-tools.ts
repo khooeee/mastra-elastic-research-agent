@@ -20,7 +20,7 @@ const es = new Client({
 const AGENT_ID = process.env.AGENT_ID ?? "mastra-agent";
 const MEMORY_INDEX = "agent-memory";
 
-// ---- TUNING KNOBS (the hacknight challenge lives here) --------------------
+// ---- TUNING KNOBS ----------------------------------------------------------
 // Recency half-life in days. Incidents might want 2; architecture decisions 90.
 const DECAY_WINDOW_DAYS = Number(process.env.BRIDGE_MEMORY_DECAY_WINDOW ?? 45);
 // "rrf" = plain FUSE (Reciprocal Rank Fusion, k=60). "linear" = FUSE LINEAR
@@ -82,7 +82,7 @@ export const remember = createTool({
         updated_at: now,
         access_scope: input.scope === "shared" ? "shared" : `${AGENT_ID}-only`,
       },
-      refresh: "wait_for", // hacknight-friendly: recallable immediately
+      refresh: "wait_for", // recallable immediately after remember
     });
 
     return { memoryId };

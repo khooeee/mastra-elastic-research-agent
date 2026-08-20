@@ -1,5 +1,5 @@
 /**
- * setup-indices.ts - one-time setup for the hacknight.
+ * setup-indices.ts - one-time setup for the research agent.
  *
  * Creates the `agent-memory` index with the same mapping used in the
  * Elastic Search Labs post "Persistent memory for agents: Claude Code on
