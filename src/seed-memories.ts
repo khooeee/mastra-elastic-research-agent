@@ -49,14 +49,16 @@ export async function resetAgentMemories(): Promise<number> {
 }
 
 /** Replace one dataset's notes. Leaves other sources in place. */
-export async function ingestMemories(memories: Mem[], dataset: string): Promise<void> {
-  await es.deleteByQuery({
+export async function ingestMemories(memories: Mem[], dataset: string): Promise<{ deleted: number; indexed: number }> {
+  const result = await es.deleteByQuery({
     index: INDEX,
     query: { term: { source: `seed:${dataset}` } },
     refresh: true,
   });
-  if (memories.length === 0) return;
+  const deleted = result.deleted ?? 0;
+  if (memories.length === 0) return { deleted, indexed: 0 };
   await bulkIndex(memories, dataset);
+  return { deleted, indexed: memories.length };
 }
 
 export async function bulkIndex(memories: Mem[], dataset: string): Promise<void> {

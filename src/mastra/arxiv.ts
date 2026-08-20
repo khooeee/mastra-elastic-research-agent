@@ -97,12 +97,22 @@ function ymdToStamp(ymd: string, endOfDay: boolean): string {
  * Falls back to a recent pull filtered by published date if the range query is empty
  * (common around timezone / announcement lag).
  */
-export async function fetchMlPapersForDate(ymd: string, limit: number): Promise<Paper[]> {
+export async function fetchMlPapersForDate(
+  ymd: string,
+  limit: number,
+): Promise<{
+  papers: Paper[];
+  usedFallback: boolean;
+  datedHits: number;
+  recentHits: number;
+  datedQuery: string;
+}> {
   const cats = "(cat:cs.LG OR cat:cs.CL)";
   const range = `submittedDate:[${ymdToStamp(ymd, false)} TO ${ymdToStamp(ymd, true)}]`;
+  const datedQuery = `${cats} AND ${range}`;
   const dated = await queryArxiv(
     new URLSearchParams({
-      search_query: `${cats} AND ${range}`,
+      search_query: datedQuery,
       start: "0",
       max_results: String(Math.min(limit, 100)),
       sortBy: "submittedDate",
@@ -110,7 +120,15 @@ export async function fetchMlPapersForDate(ymd: string, limit: number): Promise<
     }),
   );
   const onDay = dated.filter((p) => p.published === ymd);
-  if (onDay.length > 0) return onDay.slice(0, limit);
+  if (onDay.length > 0) {
+    return {
+      papers: onDay.slice(0, limit),
+      usedFallback: false,
+      datedHits: dated.length,
+      recentHits: 0,
+      datedQuery,
+    };
+  }
 
   const recent = await queryArxiv(
     new URLSearchParams({
@@ -121,5 +139,11 @@ export async function fetchMlPapersForDate(ymd: string, limit: number): Promise<
       sortOrder: "descending",
     }),
   );
-  return recent.filter((p) => p.published === ymd).slice(0, limit);
+  return {
+    papers: recent.filter((p) => p.published === ymd).slice(0, limit),
+    usedFallback: true,
+    datedHits: dated.length,
+    recentHits: recent.length,
+    datedQuery,
+  };
 }
