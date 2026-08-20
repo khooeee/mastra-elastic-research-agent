@@ -67,8 +67,9 @@ export function parseAtom(xml: string): Paper[] {
   }).filter((p) => p.id && p.title);
 }
 
-export async function queryArxiv(params: URLSearchParams): Promise<Paper[]> {
-  const res = await fetch(`${ARXIV_API}?${params}`, {
+export async function queryArxiv(params: URLSearchParams): Promise<{ papers: Paper[]; url: string }> {
+  const url = `${ARXIV_API}?${params}`;
+  const res = await fetch(url, {
     headers: { "User-Agent": USER_AGENT },
   });
   const xml = await res.text();
@@ -79,7 +80,7 @@ export async function queryArxiv(params: URLSearchParams): Promise<Paper[]> {
         : `arXiv API ${res.status}: ${xml.slice(0, 200)}`,
     );
   }
-  return parseAtom(xml);
+  return { papers: parseAtom(xml), url };
 }
 
 /** arXiv announcement day is US Eastern. en-CA yields YYYY-MM-DD. */
@@ -106,6 +107,8 @@ export async function fetchMlPapersForDate(
   datedHits: number;
   recentHits: number;
   datedQuery: string;
+  datedUrl: string;
+  fallbackUrl?: string;
 }> {
   const cats = "(cat:cs.LG OR cat:cs.CL)";
   const range = `submittedDate:[${ymdToStamp(ymd, false)} TO ${ymdToStamp(ymd, true)}]`;
@@ -119,14 +122,15 @@ export async function fetchMlPapersForDate(
       sortOrder: "descending",
     }),
   );
-  const onDay = dated.filter((p) => p.published === ymd);
+  const onDay = dated.papers.filter((p) => p.published === ymd);
   if (onDay.length > 0) {
     return {
       papers: onDay.slice(0, limit),
       usedFallback: false,
-      datedHits: dated.length,
+      datedHits: dated.papers.length,
       recentHits: 0,
       datedQuery,
+      datedUrl: dated.url,
     };
   }
 
@@ -140,10 +144,12 @@ export async function fetchMlPapersForDate(
     }),
   );
   return {
-    papers: recent.filter((p) => p.published === ymd).slice(0, limit),
+    papers: recent.papers.filter((p) => p.published === ymd).slice(0, limit),
     usedFallback: true,
-    datedHits: dated.length,
-    recentHits: recent.length,
+    datedHits: dated.papers.length,
+    recentHits: recent.papers.length,
     datedQuery,
+    datedUrl: dated.url,
+    fallbackUrl: recent.url,
   };
 }

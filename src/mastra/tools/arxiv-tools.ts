@@ -47,10 +47,11 @@ export const searchArxiv = createTool({
           }
     );
 
-    const papers = (await queryArxiv(params))
-      .filter((p) => !input.excludeIds.includes(p.id))
-      .slice(0, input.limit);
-
-    return { papers };
+    const { papers } = await queryArxiv(params);
+    return {
+      papers: papers
+        .filter((p) => !input.excludeIds.includes(p.id))
+        .slice(0, input.limit),
+    };
   },
 });

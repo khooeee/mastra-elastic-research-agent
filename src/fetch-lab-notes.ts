@@ -49,11 +49,13 @@ async function main(): Promise<void> {
   console.log(`Categories: cs.LG, cs.CL  |  limit: ${cap}`);
 
   console.log("Querying arXiv…");
-  const { papers, usedFallback, datedHits, recentHits, datedQuery } =
+  const { papers, usedFallback, datedHits, recentHits, datedQuery, datedUrl, fallbackUrl } =
     await fetchMlPapersForDate(ymd, cap);
   console.log(`Query: ${datedQuery}`);
+  console.log(`URL: ${datedUrl}`);
   console.log(`Dated API hits: ${datedHits} (${datedHits === 0 ? "none on submittedDate" : "kept those published on " + ymd})`);
   if (usedFallback) {
+    console.log(`Fallback URL: ${fallbackUrl}`);
     console.log(`Fallback: pulled ${recentHits} recent papers, filtered to published == ${ymd}`);
   }
 
@@ -71,6 +73,7 @@ async function main(): Promise<void> {
   console.log(`Keeping ${papers.length} papers: ${[...byCat.entries()].map(([c, n]) => `${c}×${n}`).join(", ")}`);
   for (const p of papers) {
     console.log(`  ${p.id}  ${p.published}  ${(p.category || "?").padEnd(6)}  ${p.title}`);
+    console.log(`    ${p.url}`);
   }
 
   const out = `./sample-data/${ymd}.json`;

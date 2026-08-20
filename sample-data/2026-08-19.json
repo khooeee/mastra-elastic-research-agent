@@ -1,0 +1,197 @@
+[
+  {
+    "type": "context",
+    "title": "arXiv 2608.19197: SPADE: Self-Play in Adaptive Synthetic Executable Environments",
+    "content": "Daily scan 2026-08-19. Bo Liu, Simon Yu, Yiding Jiang, Ao Qu, Andrew Zhao, Zichen Liu, Junsu Kim, Zijian Zhou. Category cs.CL. Continuous self-improvement requires an ever-expanding pool of self-generated, diverse, adaptive goals. For language agents, existing training environment pools (hand-curated, statically synthesized, or frozen-verifier) keep the goal distribution fixed as the learner scales. We introduce SPADE (Self-Play in Adaptive Synthetic Executable Environments), a self-play RL framework in which a single LLM plays two roles: an Environment Designer that writes complete, long-horizon training environments as executable code with an OpenAI Gym-style reset()/step() interface, and a Reasoning Agent that learns to act in them. Each is a stateful, multi-turn environment (state transitions, reward functions, and verification code), so one interface spans reasoning problems and multi-step agentic tool use. T https://arxiv.org/abs/2608.19197",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.CL",
+      "2608.19197"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19181: Beyond Teacher Likelihood: Group-Calibrated On-Policy Distillation for Long-Context Reasoning",
+    "content": "Daily scan 2026-08-19. Zhu Zhang, Jixun Wang, Xiaoang Xu, Xiaorong Wang, Zihan Zhou, Zhiyuan Wang, Shuo Wang, Chaojun Xiao. Category cs.LG. On-policy distillation (OPD) trains a student on its own responses using dense token-level guidance from a stronger teacher. In long-context tasks, however, token-level teacher support can favor locally plausible responses that omit evidence distributed across the input or violate global task constraints. Task-specific verifiers, in contrast, evaluate task completion at the response level and may return graded rewards that reflect partial success. We diagnose this mismatch on fixed responses from two representative long-context evidence-aggregation tasks. Across longer input ranges, trajectory-level OPD scores become progressively less aligned with verifier rewards, indicating teacher-verifier disagreement. Motivated by this observation, we introduce Group-Calibrated On-Policy Distillation https://arxiv.org/abs/2608.19181",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.LG",
+      "2608.19181"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19171: Lévy Attention: Single-Pass Predictive Uncertainty for Continuous-Time Attention",
+    "content": "Daily scan 2026-08-19. Sotirios P. Chatzis, Loukas Papadoulas. Category cs.LG. Deep models for irregularly-sampled time series answer queries at arbitrary continuous timestamps, yet report nothing about how far each answer should be trusted. We show the attention layer itself can close that gap: with the right stochastic formulation, the pass that makes each prediction also reports, in closed form and at no extra cost, how far it should be trusted. We introduce Lévy Attention, a cross-attention operator whose output is a stochastic integral against an inhomogeneous Poisson random measure: query-key compatibilities assemble an intensity over a continuous (time x channel) index space, the measure scatters atoms under it, and the output averages an interpolated value field at those atoms. In expectation it reduces to a mollified cosine-kernel attention, so it replaces a https://arxiv.org/abs/2608.19171",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.LG",
+      "2608.19171"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19168: Learned, Then Lost: A Measured Single-Example Counterfactual in Pre-training",
+    "content": "Daily scan 2026-08-19. Zachary Speck, Asa Shepard. Category cs.LG. A single training example's contribution to a finished model is normally estimated rather than measured, because measuring it takes two expensive full pre-training runs that differ in one row of one batch. We ran that counterfactual 24 times at a small scale. We trained 32 GPT-2 models at 124M parameters from scratch on OpenWebText, over four conditions and eight seeds. At step 200 of 9,536, at peak learning rate, we replaced one row of a 256-row batch with a fixed context injection carrying a 194-token passage. The three injected conditions are: 1. fluent prose with a corpus-attested subject, 2. fluent prose with a fabricated subject matched to it within 0.14% on full-batch gradient delta, and 3. random keyboard characters. The fourth condition is an uninjected twin. The passage is learne https://arxiv.org/abs/2608.19168",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.LG",
+      "2608.19168"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19165: ChildSafeAds Shared Task 2026: Commercial Content in Child-Facing YouTube Videos",
+    "content": "Daily scan 2026-08-19. Thales Bertaglia, Catalina Goanta, Gerasimos Spanakis, Gunes Acar. Category cs.CL. ChildSafeAds is a shared task on commercial content in YouTube videos likely to reach children and teenagers. It contains 3,360 videos from 939 channels. Each instance begins with a segment submitted to SponsorBlock, an open-source crowdsourced browser extension whose users mark sponsor segments so that others can skip them. We pair the segment with its available transcript, video and channel information, and a sales or service page linked from the video description. Systems determine what kind of offer is being promoted (ST1), assign product categories (ST2), and identify legal risk flags (ST3). The evidence is divided into four cumulative access levels, from the transcript to the linked page, so results can be compared against the cost of collecting the data. 45.5\\% of videos in our data https://arxiv.org/abs/2608.19165",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.CL",
+      "2608.19165"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19151: Continuous-Time Reinforcement Learning for Controlled Hawkes Jump-Diffusions",
+    "content": "Daily scan 2026-08-19. Tomasz R. Bielecki, Thibaut Mastrolia, Haoze Yan. Category cs.LG. We study stochastic control of multivariate Hawkes-driven stochastic differential equations with machine learning algorithms in a non-Markovian setting. Due to the path dependence of the memory of the Hawkes intensity, this problem does not fall within classical stochastic control theory outside particular Markovian kernels. We first develop a finite-dimensional Markovianization procedure and algorithm to approximate multivariate Hawkes processes with mixtures of exponential kernels. We prove the convergence of the Markovianized approximation of the Hawkes process, its intensity, and the value of the problem to the original non-Markovian processes and the value of the primal problem. We then formulate continuous-time deterministic policy gradient learning on the Markovianized approximation https://arxiv.org/abs/2608.19151",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.LG",
+      "2608.19151"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19141: Geometric Iterative Retrieval for Neural Audio Codec Resynthesis",
+    "content": "Daily scan 2026-08-19. Leo Schmidt-Traub, Frédéric Berdoz, Luca A. Lanzendörfer, Roger Wattenhofer. Category cs.SD. Neural audio codecs based on Residual Vector Quantization (RVQ) have become the dominant discrete representation for token-based general audio generation, yet resynthesizing high-quality audio from coarse codec tokens remains an open problem and bounds the fidelity of every system that generates them. Prior work has framed resynthesis as a choice between discrete token prediction and continuous regression. We argue that this dichotomy is incomplete and introduce geometric iterative retrieval, a paradigm that uses the RVQ layer hierarchy itself as a natural iterative decomposition in continuous codebook space. Rather than classifying over discrete vocabularies or regressing to a single target vector, our method performs contrastive retrieval in the codebook's geometric space. We evaluate ou https://arxiv.org/abs/2608.19141",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.SD",
+      "2608.19141"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19140: Grouping the Stochastic Machine: Precision, Not Capability, as the Frontier Metric for AI Systems",
+    "content": "Daily scan 2026-08-19. George Andrikopoulos. Category cs.AI. Frontier language models are compared, marketed, and benchmarked on capability -- what their best or average output can achieve. I argue this measures the wrong axis. The models have saturated accuracy: their mean output lands on the target. What now separates one system from another in practice is precision: how tightly concentrated their outputs are around that target across repeated, identical requests. Borrowing the marksman's distinction, capability is where the average shot lands; reliability is the size of the group. I make three claims. First, precision, not capability, is the frontier differentiator between systems, and benchmark culture systematically fails to measure it, reporting central tendency rather than spread. Second, precision is measurable, cheaply and without circulari https://arxiv.org/abs/2608.19140",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.AI",
+      "2608.19140"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19134: SCORE: Subject Coordinate Recovery for Label-Free Cross-Subject EEG-to-Image Retrieval",
+    "content": "Daily scan 2026-08-19. Zhenyao Cui, Siyuan Kan, Siyang Li, Ziwei Wang, Dongrui Wu. Category cs.LG. Accurate visual decoding can reveal how the brain represents visual information and recover perceived content from neural signals such as electroencephalography (EEG), with potential for neural communication. However, current EEG-to-image retrieval methods perform far below their within-subject counterparts for new users without labeled calibration, limiting real-world deployment. To understand this gap, we analyze EEG features across subjects and find that different subjects preserve similar relationships among concepts but express them along different coordinate directions. We therefore propose Subject Coordinate Recovery (SCORE), a target label-free framework combining recovery-aware source training with coordinate alignment at deployment. During training, SCORE aligns source subject EE https://arxiv.org/abs/2608.19134",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.LG",
+      "2608.19134"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19133: Comment-level Topic Drift Analysis in the Reddit Corpus",
+    "content": "Daily scan 2026-08-19. Steven Morse, Daniel Runfola, Trenton W. Ford. Category cs.CL. We present a novel application of embedding-based dynamic topic modeling techniques to detect and quantify topic drift at the comment level in a massive corpus. By leveraging pretrained language models to generate contextualized semantic embeddings for short text, we analyzed 12.7 billion Reddit comments spanning 2006 to 2022. Using unsupervised methods on these embeddings, we identify dynamically evolving topic clusters over time. Our primary contribution is a methodology for analysis of semantic drift and discourse evolution in the embedding space itself. We also demonstrate modifications to existing methods that enable this analysis at scale, and we propose and demonstrate a null model comparison test to filter spurious dynamics. Key findings suggest that politically and socially conten https://arxiv.org/abs/2608.19133",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.CL",
+      "2608.19133"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19128: Beyond Trial Averaging: Anchoring Neural and Visual Representations for Few-Repetition Brain-to-Image Retrieval",
+    "content": "Daily scan 2026-08-19. Zhenyao Cui, Siyuan Kan, Dingkun Liu, Dongrui Wu. Category cs.LG. Decoding visual information from brain signals probes neural representations and enables neuro-rehabilitation and dream decoding. Recent brain-to-image retrieval approaches have achieved promising performance, typically by averaging many (up to 80) neural trials per image, requiring repeated stimulus presentation that increases latency, cost, and user burden. When only one or a few repetitions are available, the retrieval accuracy drops sharply. This drop is commonly attributed to query noise because averaging suppresses noise and increases signal stability. However, we find a non-transitive alignment pattern: the low-repetition query signal and the image representation each align with the high-repetition center, but not directly with each other. This pattern shows that query noise is only https://arxiv.org/abs/2608.19128",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.LG",
+      "2608.19128"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19127: Leaf Values as Coordinates: Exact Contrastive Explanation for Gradient-Boosted Ensembles",
+    "content": "Daily scan 2026-08-19. Emanuele Luzio. Category cs.LG. A gradient-boosted ensemble predicts by summing one leaf value per tree. Read those values as coordinates rather than as intermediate results, and every instance becomes a point in R^M on which the model acts linearly: the score is the sum of the coordinates. This small change of view makes contrastive explanation exact. The difference between two instances is a vector that is identically zero wherever they share a leaf, so the gap between a rejected applicant and an accepted one is carried by a handful of coordinates, each traceable to a real split in a real tree. Nothing is fitted, sampled, or assumed additive in features -- the additivity is already there, in the right space. We build a recourse method on this representation and evaluate it on five tabular datasets under repeated cross- https://arxiv.org/abs/2608.19127",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.LG",
+      "2608.19127"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19121: PGFS++: Molecular Property Improvement under Synthesis and Diversity Constraints",
+    "content": "Daily scan 2026-08-19. Boqiao Zhang, Godbless James, Sai Krishna Gottipati, Andrew Fitzgibbon. Category cs.LG. Improving molecular properties, such as drug-likeness or binding affinity, is a recurring task in early-stage drug discovery. However, molecules optimized in an unconstrained chemical space have limited practical value if they cannot be synthesized. Policy Gradient for Forward Synthesis (PGFS) is a synthesis-aware reinforcement learning method for molecular improvement, but its use of reactant embedding prediction makes reactant selection indirect, which, as we show, limits learning effectiveness. We first develop PGFS+, in which reaction templates and second reactants are represented by trainable embedding lookup tables. Combined with a more effective scoring function and RL algorithm, PGFS+ significantly improves the desired property. However, it exposes a reward-hacking failure mode: a  https://arxiv.org/abs/2608.19121",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.LG",
+      "2608.19121"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19119: Discretizing Continuous Time Series for Imputation with Masked Diffusion Training",
+    "content": "Daily scan 2026-08-19. Dongbin Kim, Seungyun Lee, Geonwoo Shin, Jaewook Lee. Category cs.LG. Time series imputation is a crucial area for reliable time series analysis, yet it remains challenging due to the complex temporal dynamics and noise of real-world data. Existing approaches, however, exhibit two limitations: missing and observed values are embedded within the same representation space without explicit structural separation, and continuous diffusion-based methods are trained to predict added noise rather than the original signal. To address these, we propose the Masked Diffusion Time-series Imputation Model (MDTIM), which leverages the training paradigm of masked diffusion model for imputation tasks. The MASK token is structurally orthogonal to valid observations, and the model directly predicts the original values, naturally aligning both the representation and the learnin https://arxiv.org/abs/2608.19119",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.LG",
+      "2608.19119"
+    ],
+    "ageDays": 0
+  },
+  {
+    "type": "context",
+    "title": "arXiv 2608.19117: Enhancing EBSD throughput of battery electrode materials using super-resolution generative adversarial networks",
+    "content": "Daily scan 2026-08-19. John Mangum, Andrew Glaws, Francois Usseglio-Viretta, Steven Spurgeon, Donal Finegan. Category cs.LG. Quantitative microstructural characterization of Li-ion battery electrode materials using electron backscatter diffraction (EBSD) has been proven as a critical method for optimizing cell performance. However, the inherently slow nature of EBSD can hinder the throughput of analyses needed for statistical representation of a material microstructure being developed. This work demonstrates a machine learning super-resolution framework using a generative adversarial network (SRGAN) to significantly increase EBSD throughput. The SRGAN model was trained on EBSD data of LiNixMnyCozO2 (NMC) cathode particles to computationally enhance low-resolution datasets and its performance is compared against classical interpolation methods across various upscaling factors (2x to 12x). Both qualitative image m https://arxiv.org/abs/2608.19117",
+    "tags": [
+      "arxiv",
+      "daily",
+      "2026-08-19",
+      "cs.LG",
+      "2608.19117"
+    ],
+    "ageDays": 0
+  }
+]
