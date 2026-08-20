@@ -10,13 +10,26 @@ https://github.com/jdarmada/agent-memory-hacknight
 
 ### Questions
 
+https://my-elasticsearch-project-e10d02.kb.us-west-2.aws.elastic.cloud/app/discover#/?_tab=(tabId:c272fdca-7660-47e7-a8df-9ca43bcebaa0)&_g=(filters:!(),refreshInterval:(pause:!t,value:60000),time:(from:now-15m,to:now))&_a=(dataSource:(type:esql),filters:!(),interval:auto,query:(esql:''),sort:!())
+
+FROM agent-memory
+| WHERE agent == "team-khooeee"
+| STATS count = COUNT(*) BY source
+| SORT source
+
+npm run reset
+
 npm run seed:original
 
-How do we give the model knowledge?
+How do we provide agents with knowledge these days?
 
 npm run seed:current
 
 How should we adapt this model?
+
+---
+
+
 How should we align the model?
 
 ## Built
@@ -25,7 +38,8 @@ Lab notes in `sample-data/arxiv-lab.json` (not the papers themselves). Live arXi
 
 ```bash
 npm run setup
-npm run seed:original   # wipe + RLHF / RAG / LoRA
+npm run reset
+npm run seed:original   # RLHF / RAG / LoRA
 # ask the questions, then:
 npm run seed:current    # append reversals (does not delete)
 ```

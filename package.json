@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "mastra dev",
     "setup": "tsx src/setup-indices.ts",
+    "reset": "tsx src/reset.ts",
     "seed:original": "tsx src/seed-original.ts",
     "seed:current": "tsx src/seed-current.ts"
   },

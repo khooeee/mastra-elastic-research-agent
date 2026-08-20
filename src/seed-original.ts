@@ -1,29 +1,21 @@
 /**
- * Reset this agent's memories and load the original lab picture:
+ * Load the original lab picture:
  * RLHF, RAG-as-architecture, LoRA-for-every-finetune.
+ * Does not delete existing memories — run `npm run reset` first if you want a wipe.
  *
  *   npm run seed:original
  */
-import {
-  AGENT_ID,
-  LAB_FILE,
-  bulkIndex,
-  eraOf,
-  loadMemories,
-  resetAgentMemories,
-} from "./seed-memories";
+import { LAB_FILE, bulkIndex, eraOf, loadMemories } from "./seed-memories";
 
-async function resetAndSeedOriginal(): Promise<void> {
+async function seedOriginal(): Promise<void> {
   const all = await loadMemories(LAB_FILE);
   const memories = all.filter((m) => eraOf(m) === "original" || eraOf(m) === "both");
-  const deleted = await resetAgentMemories();
   await bulkIndex(memories, "arxiv-lab-original");
   const maxAge = Math.max(...memories.map((m) => m.ageDays));
-  console.log(`Reset ${AGENT_ID}: deleted ${deleted} old memories.`);
-  console.log(`Seeded ${memories.length} original memories (backdated up to ${maxAge} days).`);
+  console.log(`Appended ${memories.length} memories (backdated up to ${maxAge} days).`);
 }
 
-resetAndSeedOriginal().catch((err) => {
+seedOriginal().catch((err) => {
   console.error(err);
   process.exit(1);
 });

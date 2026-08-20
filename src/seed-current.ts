@@ -12,7 +12,7 @@ async function seedReversals(): Promise<void> {
   const memories = all.filter((m) => eraOf(m) === "current");
   await bulkIndex(memories, "arxiv-lab-current");
   const maxAge = Math.max(...memories.map((m) => m.ageDays));
-  console.log(`Appended ${memories.length} reversal memories (backdated up to ${maxAge} days). Original notes were left in place.`);
+  console.log(`Appended ${memories.length} memories (backdated up to ${maxAge} days).`);
 }
 
 seedReversals().catch((err) => {

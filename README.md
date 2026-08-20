@@ -18,6 +18,7 @@ Requires Elasticsearch Serverless or 9.3+ (`DECAY` / `FUSE`) and Node 20.20+.
 npm install
 cp .env.example .env   # ELASTICSEARCH_URL, ELASTICSEARCH_API_KEY, OPENROUTER_API_KEY, AGENT_ID
 npm run setup
+npm run reset
 npm run seed:original
 npm run dev
 ```
@@ -29,7 +30,8 @@ Studio: http://localhost:4111 → `advanced-memory-agent`. Use a **fresh thread*
 Notes live in `sample-data/arxiv-lab.json`, tagged `era: original | current | both`.
 
 ```bash
-npm run seed:original   # wipe, then RLHF / RAG-as-architecture / LoRA-for-every-finetune
+npm run reset
+npm run seed:original   # RLHF / RAG-as-architecture / LoRA-for-every-finetune
 # ask the questions below, then:
 npm run seed:current    # append reversals only — does not delete
 ```
@@ -42,7 +44,7 @@ Same questions, after each seed:
 | How do we give the model knowledge? | RAG as the architecture | Long context first; memory tools; RAG only for huge corpora |
 | How should we adapt this model? | LoRA for every finetune | Full finetune the 70B; LoRA for prototypes |
 
-`seed:current` leaves the long original decisions in the index. Decay is what makes the shorter reversals win. To go back to original-only, run `seed:original` again.
+`seed:current` leaves the long original decisions in the index. Decay is what makes the shorter reversals win. To go back to original-only: `npm run reset` (Elasticsearch **and** this agent's Mastra working memory) then `npm run seed:original`. Restart Studio if it is running.
 
 ## Tuning
 
