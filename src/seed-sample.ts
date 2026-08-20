@@ -4,8 +4,8 @@
  *   npx tsx src/seed-sample.ts --file ./sample-data/arxiv-lab.json
  *   npx tsx src/seed-sample.ts --file ./sample-data/arxiv-lab.json --reset
  *
- * --reset wipes this AGENT_ID first. Prefer `npm run seed:original` /
- * `npm run seed:current` to load one lab picture instead of both.
+ * --reset wipes this AGENT_ID first. Prefer `npm run seed:original` (wipe +
+ * original thinking) then `npm run seed:current` (append reversals).
  *
  * Dataset format:
  *

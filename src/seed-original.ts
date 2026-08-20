@@ -4,9 +4,9 @@
  *
  *   npm run seed:original
  */
-import { resetAndSeedPicture } from "./seed-memories";
+import { resetAndSeedOriginal } from "./seed-memories";
 
-resetAndSeedPicture("original").catch((err) => {
+resetAndSeedOriginal().catch((err) => {
   console.error(err);
   process.exit(1);
 });

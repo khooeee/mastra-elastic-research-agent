@@ -12,13 +12,12 @@ https://github.com/jdarmada/agent-memory-hacknight
 
 npm run seed:original
 
-How should we align the model?
-
 How do we give the model knowledge?
 
-How should we adapt this model?
-
 npm run seed:current
+
+How should we adapt this model?
+How should we align the model?
 
 ## Built
 
@@ -26,14 +25,14 @@ Lab notes in `sample-data/arxiv-lab.json` (not the papers themselves). Live arXi
 
 ```bash
 npm run setup
-npm run seed:original   # RLHF / RAG / LoRA
+npm run seed:original   # wipe + RLHF / RAG / LoRA
 # ask the questions, then:
-npm run seed:current    # GRPO / long context / full finetune
+npm run seed:current    # append reversals (does not delete)
 ```
 
-Studio: http://localhost:4111 → `advanced-memory-agent`. **Fresh thread** after each re-seed.
+Studio: http://localhost:4111 → `advanced-memory-agent`. **Fresh thread** after `seed:current`.
 
-### Break-it questions (same ask, swap seed)
+### Break-it questions (same ask; current = original + reversals)
 
 | Ask | `seed:original` | `seed:current` |
 |---|---|---|

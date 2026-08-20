@@ -1,8 +1,9 @@
 /**
- * Shared Elasticsearch seed: wipe this agent's memories, then bulk-index
- * notes from sample-data/arxiv-lab.json (or another file of the same shape).
+ * Shared Elasticsearch seed from sample-data/arxiv-lab.json.
  *
- * Each note has era: "original" | "current" | "both".
+ *   seed:original — wipe this AGENT_ID, load original thinking + shared patterns
+ *   seed:current  — do not wipe; append reversal notes (era: current)
+ *
  * Run `npm run setup` first.
  */
 import { Client } from "@elastic/elasticsearch";
@@ -32,9 +33,8 @@ export type Mem = {
   ageDays: number;
 };
 
-function inPicture(m: Mem, picture: "original" | "current"): boolean {
-  const era = m.era ?? "both";
-  return era === "both" || era === picture;
+function eraOf(m: Mem): Era {
+  return m.era ?? "both";
 }
 
 async function loadMemories(file: string): Promise<Mem[]> {
@@ -90,15 +90,24 @@ async function bulkIndex(memories: Mem[], dataset: string): Promise<void> {
   }
 }
 
-/** Wipe this AGENT_ID, then seed original or current notes from arxiv-lab.json. */
-export async function resetAndSeedPicture(picture: "original" | "current"): Promise<void> {
+/** Wipe this AGENT_ID, then load original standing decisions + shared patterns. */
+export async function resetAndSeedOriginal(): Promise<void> {
   const all = await loadMemories(LAB_FILE);
-  const memories = all.filter((m) => inPicture(m, picture));
+  const memories = all.filter((m) => eraOf(m) === "original" || eraOf(m) === "both");
   const deleted = await resetAgentMemories();
-  await bulkIndex(memories, `arxiv-lab-${picture}`);
+  await bulkIndex(memories, "arxiv-lab-original");
   const maxAge = Math.max(...memories.map((m) => m.ageDays));
   console.log(`Reset ${AGENT_ID}: deleted ${deleted} old memories.`);
-  console.log(`Seeded ${memories.length} '${picture}' memories (backdated up to ${maxAge} days).`);
+  console.log(`Seeded ${memories.length} original memories (backdated up to ${maxAge} days).`);
+}
+
+/** Append reversal notes only. Leaves original thinking in place. */
+export async function seedReversals(): Promise<void> {
+  const all = await loadMemories(LAB_FILE);
+  const memories = all.filter((m) => eraOf(m) === "current");
+  await bulkIndex(memories, "arxiv-lab-current");
+  const maxAge = Math.max(...memories.map((m) => m.ageDays));
+  console.log(`Appended ${memories.length} reversal memories (backdated up to ${maxAge} days). Original notes were left in place.`);
 }
 
 /** Seed an arbitrary JSON file. Pass reset: true to wipe this AGENT_ID first. */

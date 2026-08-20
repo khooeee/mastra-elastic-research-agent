@@ -1,12 +1,13 @@
 /**
- * Reset this agent's memories and load the current lab picture:
- * GRPO/RLVR, long context + memory, full-finetune the 70B.
+ * Append reversal notes on top of the original lab picture.
+ * Does not delete existing memories.
  *
- *   npm run seed:current
+ *   npm run seed:original   # once
+ *   npm run seed:current    # later: GRPO, long context, full-finetune
  */
-import { resetAndSeedPicture } from "./seed-memories";
+import { seedReversals } from "./seed-memories";
 
-resetAndSeedPicture("current").catch((err) => {
+seedReversals().catch((err) => {
   console.error(err);
   process.exit(1);
 });
