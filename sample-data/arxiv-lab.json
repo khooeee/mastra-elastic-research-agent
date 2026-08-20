@@ -1,5 +1,6 @@
 [
   {
+    "era": "original",
     "type": "decision",
     "title": "RLHF is how we align - InstructGPT (2203.02155) is the lab default",
     "content": "Standing decision: all alignment work goes through RLHF as in InstructGPT (arxiv 2203.02155). Rationale: we reproduced the three-stage pipeline (SFT → reward model → PPO) on our 7B and 70B stacks; the reward model trained on our in-house preference pairs beat the SFT baseline on our internal helpfulness rubric 18-4 in a blinded eval; PPO with the InstructGPT KL penalty kept the model from collapsing on our customer-support eval; and the rest of the org already has labeling vendors, RM training jobs, and PPO configs, so switching cost is real. Recipe: SFT 3 epochs, RM on 40k pairs, PPO 200k episodes, KL 0.1. This is the method we cite, the method we staff, and the method we tell partner teams to use. Do not start a new alignment project on a different algorithm without a written reversal.",
@@ -7,6 +8,7 @@
     "ageDays": 310
   },
   {
+    "era": "current",
     "type": "decision",
     "title": "Switch alignment to GRPO / RLVR - RLHF decision superseded",
     "content": "DeepSeek-R1 (2501.12948) and GRPO/RLVR beat our RLHF stack on math and code with no reward model to keep alive. Alignment default is now GRPO with verifiable rewards. The InstructGPT/RLHF decision is superseded. PPO configs stay archived; do not start new RM labeling.",
@@ -14,6 +16,7 @@
     "ageDays": 18
   },
   {
+    "era": "original",
     "type": "decision",
     "title": "RAG is how we give models knowledge - Lewis et al. (2005.11401) is the architecture",
     "content": "Standing decision: every product question that needs facts goes through RAG. We standardized on the Lewis et al. 2020 formulation (arxiv 2005.11401): dense retrieve top-k chunks, stuff into the prompt, generate. Rationale: our 32k context window is not enough for the corpus; RAG lets us update docs without a finetune; the hybrid BM25 + embedding retriever we already run in Elasticsearch is the same shape; and in a six-week bake-off, RAG with k=8 beat a frozen 32k-context baseline on our internal factuality set 0.71 vs 0.54. Chunking: 512 tokens, 64 overlap, one index per product line. Citations must include chunk ids. Fine-tuning the base model on docs is out of scope - retrieval is how knowledge gets in. New hires should read the RAG paper before touching the retriever.",
@@ -21,6 +24,7 @@
     "ageDays": 290
   },
   {
+    "era": "current",
     "type": "decision",
     "title": "Long context plus memory tools - RAG-as-default superseded",
     "content": "The 128k+ windows and agent-memory tools made naive RAG the wrong default. Factual questions now go to long context first; durable lab facts go to remember/recall with decay. RAG is only for huge, rarely-read corpora. The Lewis/RAG-as-architecture decision is superseded.",
@@ -28,6 +32,7 @@
     "ageDays": 28
   },
   {
+    "era": "original",
     "type": "decision",
     "title": "LoRA for every finetune - Hu et al. (2106.09685) is the adaptation default",
     "content": "Standing decision: we adapt models with LoRA only (arxiv 2106.09685). Rationale: a 70B full finetune blew the budget twice last year; LoRA rank 16 on attn+MLP is ~1% of those tokens and we can keep 12 adapters on one box; merge-on-serve is already in the inference stack; and in a side-by-side on our instruction mix, LoRA-16 matched full finetune within 1.2 points on MMLU while training overnight instead of a long weekend. Default: r=16, alpha=32, dropout=0.05, target q/k/v/o and up/down proj. Full-weight training needs director approval and a written cost model. This is also how we ship customer adapters without forking the base checkpoint. New projects start from the LoRA template, not from a full Trainer.",
@@ -35,6 +40,7 @@
     "ageDays": 330
   },
   {
+    "era": "current",
     "type": "decision",
     "title": "Full finetune the 70B; LoRA only for experiments - LoRA-default superseded",
     "content": "The new cluster can full-finetune the 70B overnight. LoRA underfit the domain mix on the last three customer adapters. Default for production adaptation is now a full finetune. LoRA stays for prototypes and multi-tenant adapters only. The Hu/LoRA-for-every-finetune decision is superseded.",
@@ -42,6 +48,7 @@
     "ageDays": 35
   },
   {
+    "era": "both",
     "type": "pattern",
     "title": "Monday scan is cs.LG and cs.CL only",
     "content": "Standard pattern: Monday 9am arXiv scan is cs.LG + cs.CL, sorted by recent. Skip cs.GT, cs.CC, and pure theory unless a title hits a current lab bet (alignment, adaptation, knowledge). Cap at 15 abstracts; if it has no code link and no eval table, it does not go on the reading list.",
@@ -49,6 +56,7 @@
     "ageDays": 200
   },
   {
+    "era": "both",
     "type": "pattern",
     "title": "No reading-list slot without code or a runnable eval",
     "content": "We only schedule a paper for group reading if there is code, a model card, or a table we can reproduce on our eval harness. Position papers can be noted as context but they do not get a Thursday slot.",
@@ -56,6 +64,7 @@
     "ageDays": 150
   },
   {
+    "era": "current",
     "type": "feedback",
     "title": "Do not keep citing the 2024 process-supervision paper - failed to replicate",
     "content": "We spent two weeks trying to reproduce the 2024 process-supervision gains on our math split (the one everyone bookmarked last spring). Reward-model-over-steps did not beat outcome-only GRPO on our harness. Do not keep citing it as SOTA or as why we need a process RM. Treat it as a negative result for this lab.",
@@ -63,6 +72,7 @@
     "ageDays": 95
   },
   {
+    "era": "current",
     "type": "context",
     "title": "Cluster can full-finetune 70B; 8xH100 box is the training default",
     "content": "Training default is the 8xH100 box. A 70B full finetune on the instruction mix finishes overnight; LoRA is no longer required to hit the budget. Inference still merges or serves full weights. This is why the adaptation default could move.",
@@ -70,6 +80,7 @@
     "ageDays": 40
   },
   {
+    "era": "current",
     "type": "feedback",
     "title": "LoRA rank 16 underfit the last three customer adapters",
     "content": "Customer A/B/C adapters trained with the LoRA template all plateaued ~3 points below a matched full finetune on the holdout. Rank 64 helped a little, not enough. This is the evidence behind dropping LoRA as the production default.",
@@ -77,6 +88,7 @@
     "ageDays": 42
   },
   {
+    "era": "current",
     "type": "feedback",
     "title": "RAG missed long-doc facts that fit in the 128k window",
     "content": "On the Q2 factuality set, chunked RAG (k=8) dropped citations that were in-document but outside the retrieved chunks. Stuffing the same docs into a 128k context recovered them. Retrieval stays for the wiki dump; it is the wrong first tool for anything that fits in context.",
@@ -84,6 +96,7 @@
     "ageDays": 30
   },
   {
+    "era": "current",
     "type": "feedback",
     "title": "GRPO run on the math split beat PPO-RLHF - keep going",
     "content": "First GRPO/RLVR run (recipe close to DeepSeek-R1, 2501.12948) beat our production PPO-RLHF checkpoint on GSM8K-style and LiveCodeBench-internal. No RM to retrain. Staffing should move off RM labeling.",
@@ -91,6 +104,15 @@
     "ageDays": 12
   },
   {
+    "era": "original",
+    "type": "context",
+    "title": "Already read - do not recommend these arXiv ids",
+    "content": "Already consumed; exclude from 'what should I read' recs: 2203.02155 InstructGPT, 2106.09685 LoRA, 2005.11401 RAG, 2307.09288 Llama 2. Still unread: test-time compute, memory-augmented agents, and anything past the InstructGPT/LoRA/RAG stack.",
+    "tags": ["already-read", "2203.02155", "2106.09685", "2005.11401"],
+    "ageDays": 5
+  },
+  {
+    "era": "current",
     "type": "context",
     "title": "Already read - do not recommend these arXiv ids",
     "content": "Already consumed; exclude from 'what should I read' recs: 2203.02155 InstructGPT, 2106.09685 LoRA, 2005.11401 RAG, 2501.12948 DeepSeek-R1, 2402.03300 DeepSeekMath (GRPO), 2307.09288 Llama 2. Still unread and on the maybe-list: anything new on test-time compute, memory-augmented agents, or 70B full-finetune recipes.",

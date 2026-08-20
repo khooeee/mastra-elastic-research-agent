@@ -10,6 +10,8 @@
   "scripts": {
     "dev": "mastra dev",
     "setup": "tsx src/setup-indices.ts",
+    "seed:original": "tsx src/seed-original.ts",
+    "seed:current": "tsx src/seed-current.ts",
     "seed:sample": "tsx src/seed-sample.ts"
   },
   "dependencies": {

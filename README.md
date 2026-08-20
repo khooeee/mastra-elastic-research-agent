@@ -18,21 +18,30 @@ Requires Elasticsearch Serverless or 9.3+ (`DECAY` / `FUSE`) and Node 20.20+.
 npm install
 cp .env.example .env   # ELASTICSEARCH_URL, ELASTICSEARCH_API_KEY, OPENROUTER_API_KEY, AGENT_ID
 npm run setup
-npm run seed:sample -- --file ./sample-data/arxiv-lab.json
+npm run seed:original   # or: npm run seed:current
 npm run dev
 ```
 
-Studio: http://localhost:4111 → `advanced-memory-agent`. Use a **fresh thread** for each before/after so chat history does not leak the first answer.
+Studio: http://localhost:4111 → `advanced-memory-agent`. Use a **fresh thread** after each re-seed so chat history does not leak the previous picture.
 
-### Break-it questions (same ask, tune decay)
+### Swap the lab picture
 
-| Ask | Stale (wide window / no decay) | Current (~45-day window) |
+Notes live in `sample-data/arxiv-lab.json`, tagged `era: original | current | both`. Each seed **deletes this `AGENT_ID`'s memories** then loads one picture:
+
+```bash
+npm run seed:original   # RLHF, RAG-as-architecture, LoRA-for-every-finetune
+npm run seed:current    # GRPO/RLVR, long context + memory, full-finetune the 70B
+```
+
+Same questions, different seed:
+
+| Ask | `seed:original` | `seed:current` |
 |---|---|---|
 | How should we align the model? | RLHF / InstructGPT 2203.02155 | GRPO / RLVR, DeepSeek-R1 2501.12948 |
 | How do we give the model knowledge? | RAG as the architecture | Long context first; memory tools; RAG only for huge corpora |
 | How should we adapt this model? | LoRA for every finetune | Full finetune the 70B; LoRA for prototypes |
 
-Decay flip: `.env` `BRIDGE_MEMORY_DECAY_WINDOW=45` → `180`, restart Studio, same question.
+To put **both** pictures in one index (decay demo instead of a reset): `npm run seed:sample -- --file ./sample-data/arxiv-lab.json --reset`, then flip `BRIDGE_MEMORY_DECAY_WINDOW` from `45` to `180`.
 
 ## Tuning
 

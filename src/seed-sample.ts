@@ -1,49 +1,30 @@
 /**
- * seed-sample.ts - seed the agent-memory index from a sample dataset JSON.
- *
- * Data-driven seed so you can copy arxiv-lab.json and write your own notes:
+ * seed-sample.ts - seed the agent-memory index from a JSON file.
  *
  *   npx tsx src/seed-sample.ts --file ./sample-data/arxiv-lab.json
+ *   npx tsx src/seed-sample.ts --file ./sample-data/arxiv-lab.json --reset
  *
- * Dataset format - an array of memories with RELATIVE ages, so the decay
- * demo works whenever you run it:
+ * --reset wipes this AGENT_ID first. Prefer `npm run seed:original` /
+ * `npm run seed:current` to load one lab picture instead of both.
+ *
+ * Dataset format:
  *
  *   {
+ *     "era": "original" | "current" | "both",   // optional; ignored here
  *     "type": "decision" | "pattern" | "context" | "feedback",
  *     "title": "...",
  *     "content": "...",
  *     "tags": ["..."],
- *     "ageDays": 305        // how many days ago this memory was created
+ *     "ageDays": 305
  *   }
- *
- * Authoring rule for a good demo: give SUPERSEDED decisions longer, richer
- * rationale than their reversals - that's what makes recall without decay
- * confidently return the stale answer.
  *
  * Run `npm run setup` first (creates the index).
  */
-import { Client } from "@elastic/elasticsearch";
-import { readFile } from "node:fs/promises";
-import { basename } from "node:path";
-import "dotenv/config";
+import { seedFromFile } from "./seed-memories";
 
-const es = new Client({
-  node: process.env.ELASTICSEARCH_URL!,
-  auth: { apiKey: process.env.ELASTICSEARCH_API_KEY! },
-});
-
-const AGENT_ID = process.env.AGENT_ID ?? "mastra-agent";
-const INDEX = "agent-memory";
-
-const daysAgo = (n: number) => new Date(Date.now() - n * 86_400_000).toISOString();
-
-type Mem = {
-  type: "decision" | "pattern" | "context" | "feedback";
-  title: string;
-  content: string;
-  tags: string[];
-  ageDays: number;
-};
+function hasFlag(name: string): boolean {
+  return process.argv.includes(`--${name}`);
+}
 
 function arg(name: string): string | undefined {
   const i = process.argv.indexOf(`--${name}`);
@@ -53,51 +34,11 @@ function arg(name: string): string | undefined {
 async function main() {
   const file = arg("file");
   if (!file) {
-    console.error("Usage: npx tsx src/seed-sample.ts --file ./sample-data/arxiv-lab.json");
+    console.error("Usage: npx tsx src/seed-sample.ts --file ./sample-data/arxiv-lab.json [--reset]");
     process.exit(1);
   }
 
-  const memories = JSON.parse(await readFile(file, "utf8")) as Mem[];
-  const bad = memories.filter(
-    (m) => !m.title || !m.content || typeof m.ageDays !== "number" ||
-      !["decision", "pattern", "context", "feedback"].includes(m.type)
-  );
-  if (bad.length > 0) {
-    console.error(`${bad.length} entries are missing type/title/content/ageDays - first bad title: ${bad[0]?.title ?? "(none)"}`);
-    process.exit(1);
-  }
-
-  const dataset = basename(file).replace(/\.json$/i, "");
-  const operations = memories.flatMap((m, i) => {
-    const created = daysAgo(m.ageDays);
-    const id = `${AGENT_ID}-${dataset}-${String(i).padStart(3, "0")}`;
-    return [
-      { index: { _index: INDEX, _id: id } },
-      {
-        memory_id: id,
-        agent: AGENT_ID,
-        type: m.type,
-        title: m.title,
-        title_semantic: m.title,
-        content: m.content,
-        content_semantic: m.content,
-        tags: m.tags ?? [],
-        source: `seed-sample:${dataset}`,
-        created_at: created,
-        updated_at: created,
-        access_scope: "shared",
-      },
-    ];
-  });
-
-  const result = await es.bulk({ operations, refresh: true });
-  if (result.errors) {
-    console.error("Some documents failed:", JSON.stringify(result.items.filter((i: any) => i.index?.error), null, 2));
-    process.exit(1);
-  }
-
-  const maxAge = Math.max(...memories.map((m) => m.ageDays));
-  console.log(`Seeded ${memories.length} memories from '${dataset}' (backdated up to ${maxAge} days).`);
+  await seedFromFile(file, { reset: hasFlag("reset") });
   console.log("Now ask the advanced-memory-agent something the dataset reverses - then tune BRIDGE_MEMORY_DECAY_WINDOW.");
 }
 
